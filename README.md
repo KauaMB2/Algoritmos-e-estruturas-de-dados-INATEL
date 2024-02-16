@@ -23,4 +23,4 @@ Sinta-se à vontade para contribuir com este repositório! Se você é um aluno 
 Para utilizar este repositório, basta cloná-lo para o seu ambiente de desenvolvimento:
 
 ```bash
-git clone https://github.com/seu-usuario/algoritmos-e-estrutura-de-dados-INATEL.git
+git clone https://github.com/KauaMB2/Algoritmos-e-estruturas-de-dados-INATEL.git
