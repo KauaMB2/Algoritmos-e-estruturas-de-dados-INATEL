@@ -14,12 +14,6 @@ Este repositório incluirá:
 - Exercícios práticos e suas soluções.
 - Materiais de apoio, como apresentações e documentos explicativos.
 
-## Estrutura do Repositório
-
-- `exemplos/`: Pasta contendo exemplos de código discutidos em sala de aula.
-- `exercicios/`: Aqui você encontrará os exercícios propostos juntamente com suas soluções.
-- `materiais/`: Documentos de apoio, apresentações e outros materiais relevantes.
-
 ## Contribuição
 
 Sinta-se à vontade para contribuir com este repositório! Se você é um aluno do curso, pode enviar seus próprios exemplos de código ou exercícios resolvidos. Se você é um profissional da área, suas contribuições são igualmente valiosas. Basta abrir um pull request com suas alterações e elas serão revisadas.
