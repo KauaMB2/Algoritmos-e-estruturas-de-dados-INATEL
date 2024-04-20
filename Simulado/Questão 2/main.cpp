@@ -1,66 +1,84 @@
 #include <iostream>
 #include <vector>
-#include <queue>
-#include <climits>
 #include <stack>
+#include <algorithm>
 
 using namespace std;
-
-#define INF INT_MAX
 
 struct Edge {
     int destination;
     int weight;
 };
 
-int dijkstra(vector<vector<Edge>>& graph, int start, int end) {
-    int V = graph.size(); // Get the number of vertices
-    vector<int> distance(V, INF);// Vector of minimun distances
-    distance[start] = 0;//Define the distance to the start vertice to itself as 0
-    vector<int> parent(V, -1);//Parent vector
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;//Create the priority queue
-    pq.push({0, start});//Add the first element in the queue and define the weight to itselft as beeing 0
-    
-    while (!pq.empty()) {//While the queue is not empty
-        int u = pq.top().second;//Get the value of the current vertex
-        pq.pop();//Delete the current vertex of the queue
-
-        if (u == end){// If the destiny vertex was found...
-            return distance[u];
-        }
-        for (auto& edge : graph[u]) {//For each edge of the current vertex
-            int v = edge.destination;//Get the destiny vertex
-            int weight = edge.weight;//Get the weight
-
-            if (distance[v] > distance[u] + weight) {//If the destiny between the current element and its destiny vertex is biggest than the distance between the current vertex to itself s+ the weight...
-                distance[v] = distance[u] + weight;//Define the new distance as the shortest
-                parent[v] = u;//Define the parent of the "v" vertex as beeing "u"
-                pq.push({distance[v], v});//Add the v vertex in the queue
-            }
+void DFS_VISIT(vector<vector<Edge>>& adj, int u, vector<char>& color, vector<int>& f, int& time) {
+    color[u] = 'G'; // Marca o vértice como visitado (cinza)
+    time++;
+    for (const auto& edge : adj[u]) {
+        int v = edge.destination;
+        if (color[v] == 'W') {
+            DFS_VISIT(adj, v, color, f, time);
         }
     }
-    return INF;
+    color[u] = 'B'; // Marca o vértice como finalizado (preto)
+    f[u] = time++;
 }
 
-int main(){
-    vector<vector<Edge>> graph(7);
-    graph[1].push_back({2, 1});
-    graph[1].push_back({4, 1});
-    graph[3].push_back({4, 1});
-    graph[4].push_back({5, 1});
-    graph[4].push_back({6, 1});
-    graph[6].push_back({5, 1});
-    graph[4].push_back({2, 1});
-    graph[5].push_back({2, 1});
-    graph[1].push_back({3, 1});
-
-    int S, D;
-    cin >> S >> D;
-    int result = dijkstra(graph, S - 1, D - 1);
-    if (result != INF) {
-        cout << result + 1 << endl;
-    } else {
-        cout << "IMPOSSIVEL" << endl;
+void DFS(vector<vector<Edge>>& adj, vector<char>& color, vector<int>& f) {
+    int nVertices = adj.size();
+    int time = 0;
+    for (int u = 0; u < nVertices; ++u) {
+        if (color[u] == 'W') {
+            DFS_VISIT(adj, u, color, f, time);
+        }
     }
+}
+
+void topologicalSort(vector<vector<Edge>>& adj) {
+    int nVertices = adj.size();//Get the size of the graph
+    vector<char> color(nVertices, 'W'); // Define the color white for non-visited vertices
+    vector<int> f(nVertices, 0); // Define a function to storage the time of each vertex
+    DFS(adj, color, f);//Apply DFS
+
+    // Ordenando os vértices em ordem decrescente de f
+    vector<pair<int, int>> vertices_f;//Define a vector to storage the ordered vertices
+    for (int i = 0; i < nVertices; ++i) {//For each vertex in the graph...
+        vertices_f.push_back({f[i], i});//Add the vertex in the ordered vector
+    }
+    sort(vertices_f.rbegin(), vertices_f.rend());//Organize the vertice in the ascending order
+
+    // Exibindo os vértices na ordem correta
+    cout << "f={";
+    for (int i = 0; i < nVertices; ++i) {
+        cout << vertices_f[i].first;
+        if (i < nVertices - 1) {
+            cout << ",";
+        }
+    }
+    cout << "} ord=";
+    for (int i = 0; i < nVertices; ++i) {
+        cout << "v" << vertices_f[i].second + 1;
+        if (i < nVertices - 1) {
+            cout << "-";
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+    int nVertices = 6; // Defina o número total de vértices
+    vector<vector<Edge>> graph(nVertices);
+
+    // Preencha o grafo com as arestas
+    graph[0].push_back({1, 1});
+    graph[0].push_back({3, 1});
+    graph[2].push_back({3, 1});
+    graph[3].push_back({4, 1});
+    graph[3].push_back({5, 1});
+    graph[5].push_back({4, 1});
+    graph[3].push_back({1, 1});
+    graph[4].push_back({1, 1});
+    graph[0].push_back({2, 1});
+
+    topologicalSort(graph);
     return 0;
 }

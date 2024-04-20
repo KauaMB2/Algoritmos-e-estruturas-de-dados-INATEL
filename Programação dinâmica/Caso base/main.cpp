@@ -11,12 +11,12 @@ struct Object {
 
 vector<Object> findBetterCombination(int W, int n, vector<Object> objects, vector<vector<int>> Table) {
     vector<Object> betterCombination;
-    while ((W > 0) && (n > 0)) {
-        if ((Table[n][W] - Table[n - 1][W]) != 0) {
-            betterCombination.push_back(objects[n - 1]);
-            W -= objects[n - 1].weight;
+    while ((W > 0) && (n > 0)) {//while we don't reset the W and the number 'n' of elements to 0... 
+        if ((Table[n][W] - Table[n - 1][W]) != 0) {//If the current element there is some difference between the current element and the element of the same column, but last row
+            betterCombination.push_back(objects[n - 1]);//Add the element of the current row in the table
+            W -= objects[n - 1].weight;//Subtract the weight of the current element in the weight "W" value
         }
-        n--;
+        n--;//Go to the row of other object
     }
     return betterCombination;
 }
@@ -40,32 +40,32 @@ void printTable(int W, int n, vector<vector<int>> Table) {
     cout << endl << "=========================" << endl << endl;
 }
 
-// Função para calcular o valor máximo que pode ser obtido
-// com capacidade máxima W e com os itens dados
+// Function to calculate the max value to be got with max capacity "W" and with the itens gave
 int dynamicProgramming(int W, vector<vector<int>> &Table, vector<Object> objects, int n) {
-    // Construção da tabela K[][] de baixo para cima
-    for (int i = 0; i <= n; i++) {
-        for (int w = 0; w <= W; w++) {
-            if (i == 0 || w == 0) {
-                Table[i][w] = 0;
-            } else if (objects[i - 1].weight <= w) {
-                Table[i][w] =
-                    max(objects[i - 1].value + Table[i - 1][w - objects[i - 1].weight],
-                        Table[i - 1][w]);
-                printTable(W, n, Table);
-            } else {
-                Table[i][w] = Table[i - 1][w];
-                printTable(W, n, Table);
+    for (int i = 0; i <= n; i++) {//For each row in the matrix
+        for (int w = 0; w <= W; w++) {//For each column in the matrix
+            if (i == 0 || w == 0) {//If the row or the column is 0.. 
+                Table[i][w] = 0;//Define the current cell as beeing 0
+            } else if (objects[i - 1].weight <= w) {//If the weight of the current objet is lowest than the current weight "w"
+                Table[i][w] = max(objects[i - 1].value + Table[i - 1][w - objects[i - 1].weight], Table[i - 1][w]);//Finds the highest value between the price of the element in the current row plus the element in the previous row with the weight of the element in the current row discounted and the weight of the element in the same column as the current cell, but one row earlier
+                printTable(W, n, Table);//print the updated table
+            } else {//If the weight of the current objet is biggest than the current weight "w"
+                Table[i][w] = Table[i - 1][w];//Set the value of the last row in the table
+                printTable(W, n, Table);//print the updated table
             }
         }
     }
-    return Table[n][W];
+    return Table[n][W];//Return the price in the better case
 }
 
 int main() {
-    vector<Object> objects = {
-        {"Faca", 1, 1}, {"Radio", 3, 5}, {"TV", 5, 8}, {"Playstation", 8, 10}};
-    int W = 11; // Capacidade máxima da mochila
+    vector<Object> objects = 
+        {{"1", 2, 30},
+                          {"2", 3, 70},
+                          {"3", 1, 30},
+                          {"4", 1, 20},
+                          {"5", 2, 40}};
+    int W = 5; // Capacidade máxima da mochila
     int n = objects.size();
     vector<vector<int>> Table(n + 1, vector<int>(W + 1, 0));
     int betterValue = dynamicProgramming(W, Table, objects, n);

@@ -17,7 +17,7 @@ void compareFunction(vector<Stone> &subset, vector<Stone> &betterCombination, in
     provisionalTotalPrice += subset[i].price;
     provisionalTotalWeight += subset[i].weight;
   }
-  if (provisionalTotalWeight > 4) {
+  if (provisionalTotalWeight > 5) {
     return;
   }
   if (provisionalTotalPrice > totalPrice) {
@@ -43,9 +43,11 @@ void generateSubsets(vector<Stone> &stones, vector<Stone> &subset, int index, in
 }
 
 int main() {
-  vector<Stone> stones = {{"1", 2, 40},
-                          {"2", 3, 30},
-                          {"3", 1, 20}};
+  vector<Stone> stones = {{"1", 2, 30},
+                          {"2", 3, 70},
+                          {"3", 1, 30},
+                          {"4", 1, 20},
+                          {"5", 2, 40}};
   vector<Stone> subset;
   vector<Stone> betterCombination;
   int counter=0;
