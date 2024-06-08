@@ -49,21 +49,20 @@ vector<Point> convexHull(vector<Point>& points) {
     sort(points.begin(), points.end(), compare);
 
     // Initialize stack for storing convex hull
-    vector<Point> hull;
-    hull.push_back(points[0]);
-    hull.push_back(points[1]);
+    vector<Point> convexHull;
+    convexHull.push_back(points[0]);
+    convexHull.push_back(points[1]);
 
     // APPLY THE GRAHAM ALGORITHM
-    //orientation(fecho[fecho.size() - 2], fecho.back(), pontos[i]) != 2: Checks if the orientation of the triplet (fecho[fecho.size() - 2], fecho.back(), pontos[i]) is not counterclockwise. If it's not counterclockwise, it means that the last two points in the convex hull (fecho[fecho.size() - 2] and fecho.back()) and the current point pontos[i] make a right or straight turn. In such a case, the last point in the convex hull (fecho.back()) is removed (fecho.pop_back()) because it's not contributing to the convex hull.
     for (int i = 2; i < n; i++) {
-        // Keep removing points from the stack while the orientation is not counterclockwise
-        while (orientation(hull[hull.size() - 2], hull.back(), points[i]) != 1) {
-            hull.pop_back();
+        //(orientation(hull[hull.size() - 2], hull.back(), points[i]) != 1): Checks if the orientation of the triplet (fecho[fecho.size() - 2], fecho.back(), pontos[i]) is not counterclockwise. If it's not counterclockwise, it means the last point can be deleted of the vector, because the current point and the penultimate point can be connected.
+        while (orientation(convexHull[convexHull.size() - 2], convexHull.back(), points[i]) != 1) {// Keep removing points from the stack while the orientation is not counterclockwise
+            convexHull.pop_back();//Remove the last element(Point that have a clockwise connection to the current point)
         }
-        hull.push_back(points[i]); // Add the current point to the convex hull
+        convexHull.push_back(points[i]); // Add the current point to the convex hull
     }
 
-    return hull;
+    return convexHull;
 }
 
 int main() {

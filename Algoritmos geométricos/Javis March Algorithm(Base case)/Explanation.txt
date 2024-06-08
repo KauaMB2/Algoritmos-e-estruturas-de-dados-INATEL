@@ -1,0 +1,2 @@
+Selecione o ponto com a menor coordenada Y(O promeiro vértice), selecione o ponto com menor ângulo no sentido anti-horário com o último ponto por força bruta.
+Deve-se repetir o processo até o ponto atual ser novamente o ponto final. 
