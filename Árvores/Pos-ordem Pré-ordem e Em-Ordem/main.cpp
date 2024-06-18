@@ -8,7 +8,7 @@ struct Node {
     Node* right;
 };
 // Pré-ordem: Você visita o nó raiz primeiro, depois o filho da esquerda e por fim o filho da direita.
-// Em ordem: Você visita o filho da esquerda primeiro, depois o nó raiz e por fim o filho da direita.
+// Em ordem: Você visita o filho da esquerda primeiro, depois o filho da direita e por fim o nó raiz.
 // Pós-ordem: Você visita os filhos primeiro (esquerda e direita) e por último o nó raiz.
 // Function to create a new node
 Node* createNode(int value) {

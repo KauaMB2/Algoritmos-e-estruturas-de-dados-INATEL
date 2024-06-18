@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stack>
-#include <limits.h>
 using namespace std;
 
 struct Node {
@@ -30,33 +29,42 @@ Node* insert(Node* tree, int value) {
     }
     return tree;
 }
-//Function to pass through all the elements of the binary tree
-int contaFolhas(Node* tree) {
-    if(tree==nullptr){
-        return 0;
+
+// Function to order in the descending order
+void reverseInOrderTraversal(Node* tree) {
+    stack<Node*> s;//create a stack
+    Node* current = tree;//Get the current element
+    while (current != nullptr || !s.empty()) {//While the stack isn't empty
+        // Go through the node more to the right possible
+        while (current != nullptr) {//If the current element doesn't be a null pointer
+            s.push(current);//Add it in the stack
+            current = (*current).right;//Get the node of the right
+        }
+
+        current = s.top();//Get the top node
+        s.pop();//Take out the top node
+        cout << (*current).data << " "; // Print the value
+        current = (*current).left;// Get the node of the left
     }
-    if ((*tree).left == nullptr && (*tree).right == nullptr) {
-        return 1; // Node is a leaf node
+}
+// Function to order in the ascending order
+void InOrderTraversal(Node* tree) {
+    stack<Node*> s;//create a stack
+    Node* current = tree;//Get the current element
+    while (current != nullptr || !s.empty()) {//While the stack isn't empty
+        // Go through the node more to the right possible
+        while (current != nullptr) {//If the current element doesn't be a null pointer
+            s.push(current);//Add it in the stack
+            current = (*current).left;//Get the node of the right
+        }
+
+        current = s.top();//Get the top node
+        s.pop();//Take out the top node
+        cout << (*current).data << " "; // Print the value
+        current = (*current).right;// Get the node of the left
     }
-    // Recursively count the number of leaf nodes in the left and right subtrees
-    int leftLeafCount = contaFolhas(tree->left);
-    int rightLeafCount = contaFolhas(tree->right);
-    return leftLeafCount+rightLeafCount;
 }
 
-int maior(Node* tree) {
-    while((*tree).right!=nullptr){//While the next element is not void
-        tree=(*tree).right;//Get the element of the right
-    }
-    return (*tree).data;//Return the data
-}
-//Function to pass through all the elements of the binary tree
-int menor(Node* tree) {
-    while((*tree).left!=nullptr){//While the next element is not void
-        tree=(*tree).left;//Get the element of the left
-    }
-    return (*tree).data;//Return the data
-}
 int main() {
     Node* tree = nullptr;//Create a void tree
     int value;
@@ -67,8 +75,6 @@ int main() {
         }
         tree = insert(tree, value);//Insert the value
     }
-    int biggestValue=maior(tree); // Order to the descending order
-    int lowestValue=menor(tree); // Order to the descending order
-    cout << lowestValue << " e " << biggestValue;
+    reverseInOrderTraversal(tree); // Order to the descending order
     return 0;
 }
